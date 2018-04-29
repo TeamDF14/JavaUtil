@@ -9,6 +9,7 @@ import static org.junit.Assert.*;
 
 public class StringTest {
 
+
     @Test
     public void notEmpty() {
         java.lang.String value = "value";
@@ -16,6 +17,15 @@ public class StringTest {
 
         value = null;
         assertFalse(util.String.notEmpty(value));
+    }
+
+    @Test
+    public void isEmpty() {
+        java.lang.String value = "value";
+        assertFalse(util.String.isEmpty(value));
+
+        value = null;
+        assertTrue(util.String.isEmpty(value));
     }
 
     @Test

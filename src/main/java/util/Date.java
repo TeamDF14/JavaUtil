@@ -7,8 +7,6 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
-import static util.String.notEmpty;
-
 public class Date {
 
     /**
@@ -67,7 +65,7 @@ public class Date {
      * @return The time of type Date
      */
     public static final java.util.Date convertStringToTime(final java.lang.String time){
-        if (!notEmpty(time)){
+        if (util.String.isEmpty(time)){
             return null;
         }
 
@@ -127,7 +125,7 @@ public class Date {
      * @return the time as Date
      */
     public static final java.util.Date convertStringToDate(final java.lang.String date){
-        if(!notEmpty(date)){
+        if(util.String.isEmpty(date)){
             return null;
         }
 

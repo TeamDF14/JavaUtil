@@ -3,7 +3,7 @@ package util;
 public class String {
 
     /**
-     * <p>Checks if the given string is empty or null.</p>
+     * <p>Checks if the given string is not empty or null.</p>
      * @param s The string to check
      * @return True if the string is empty or null, false if not.
      */
@@ -12,12 +12,21 @@ public class String {
     }
 
     /**
+     * <p>Checks if the given string is empty or null.</p>
+     * @param s The string to check
+     * @return True if the string is empty or null, false if not.
+     */
+    public static boolean isEmpty(final java.lang.String s) {
+        return s == null  || s.isEmpty();
+    }
+
+    /**
      * <p>Converts the special characters \, &, ', <, > to HTML characters</p>
      * @param textToConvert The text to be converted.
      * @return The converted text.
      */
     public static java.lang.String convertToSpecialCharacters(java.lang.String textToConvert){
-        if(!notEmpty(textToConvert)){
+        if(util.String.isEmpty(textToConvert)){
             return null;
         }
 
@@ -54,7 +63,7 @@ public class String {
      * @return The converted text.
      */
     public static java.lang.String convertFromSpecialCharacters(java.lang.String textToConvert){
-        if(!notEmpty(textToConvert)){
+        if(util.String.isEmpty(textToConvert)){
             return null;
         }
 
