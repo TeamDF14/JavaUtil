@@ -1,0 +1,16 @@
+.idea/workspace.xml
+.idea/vcs.xml
+.idea/modules.xml
+.idea/misc.xml
+.idea/libraries/Maven__org_hamcrest_hamcrest_core_1_3.xml
+.idea/libraries/Maven__junit_junit_4_12.xml
+.idea/encodings.xml
+.idea/compiler.xml
+.idea/.name
+target/test-classes/util/StringTest.class
+target/test-classes/util/FileSystemTest.class
+target/test-classes/util/DateTest.class
+target/classes/util/XML.class
+target/classes/util/String.class
+target/classes/util/FileSystem.class
+target/classes/util/Date.class
