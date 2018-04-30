@@ -174,6 +174,120 @@ public class Date {
     }
 
     /**
+     * <p>Returns the string expression of the given weekday of type int.</p>
+     * <p>For example, if <i>value</i> is set to <i>1</i>, <b>Sunday</b> is returned.</p>
+     * <p>Values less than 1 or greater than 7 aren't expected and an empty string will be returned.</p>
+     * @param value A weekday coded as integer
+     * @param shortDesc True if the description of the day should be short (e.g. Fr. instead of Friday) or not.
+     * @return The string expression of the weekday.
+     */
+    public static String getDayOfWeek(final int value, final boolean shortDesc) {
+
+        String day = "";
+
+        switch (value) {
+            case 1:
+                day = shortDesc ? "So." : "Sonntag";
+                break;
+            case 2:
+                day = shortDesc ? "Mo." : "Montag";
+                break;
+            case 3:
+                day = shortDesc ? "Di." : "Dienstag";
+                break;
+            case 4:
+                day = shortDesc ? "Mi." : "Mittwoch";
+                break;
+            case 5:
+                day = shortDesc ? "Do." : "Donnerstag";
+                break;
+            case 6:
+                day = shortDesc ? "Fr." : "Freitag";
+                break;
+            case 7:
+                day = shortDesc ? "Sa." : "Samstag";
+                break;
+            default:
+                return day;
+        }
+        return day;
+    }
+
+
+    /**
+     * Extracts the seconds out of a given date.
+     * @param d The date to extract the seconds from. This date must not be null.
+     * @return The seconds of the given date, e.g. <b>08</b>. If the date is null, an empty string is returned.
+     */
+    public static final String getSeconds(java.util.Date d){
+
+        if (d == null){
+            return "";
+        }
+
+        String sDate;
+        SimpleDateFormat sdF = new SimpleDateFormat("ss");
+        sDate = sdF.format(d);
+
+        return sDate;
+    }
+
+    /**
+     * <p>Converts the given date into a format that contains hours and minutes, e.g.: </p>
+     * <ul>
+     *     <li>16:05</li>
+     * </ul>
+     * where <i>16</i> is the amount of hours and <i>05</i> is the amount of minutes.
+     * <p>The given date must not be null.</p>
+     * @param d The date to be converted.
+     * @return A string in the specified format (see above) that contains hours and minutes. If null is provided as a date, an empty string is returned.
+     */
+    public static final String getTime(java.util.Date d){
+
+        if (d == null){
+            return "";
+        }
+
+        String sDate;
+        SimpleDateFormat sdF = new SimpleDateFormat("HH:mm");
+        sDate = sdF.format(d);
+
+        return sDate;
+    }
+
+    /**
+     * <p>Converts the given date into a format that contains the date info, e.g.: </p>
+     * <ul>
+     *     <li>16. Februar 2018</li>
+     *     <li>16. Februar (if showYear is set to false)</li>
+     * </ul>
+     *
+     * <p>The given date must not be null.</p>
+     * @param d The date to be converted.
+     * @param showYear True if the year should be shown, false if not.
+     * @return A string in the specified format (see above). If null is provided as a date, an empty string is returned.
+     */
+    public static final String getDate(java.util.Date d, final boolean showYear){
+
+        if (d == null){
+            return "";
+        }
+
+        String sDate;
+        SimpleDateFormat sdF;
+        if (showYear){
+            sdF = new SimpleDateFormat("dd. MMMM YYYY");
+        }
+        else{
+            sdF = new SimpleDateFormat("dd. MMMM");
+        }
+
+        sDate = sdF.format(d);
+
+        return sDate;
+    }
+
+    /**
      * <p>Calculates the difference in days between two dates. </p>
      * <p>The order of the two dates is not relevant for the result.</p>
      * <p>Therefore, The fields DAY_OF_YEAR, MONTH and YEAR are compared.</p>
