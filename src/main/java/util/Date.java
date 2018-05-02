@@ -454,6 +454,7 @@ public class Date {
             return false;
         }
 
+        /*
         // is smaller
         if (calCurrent.get(Calendar.HOUR_OF_DAY) < calStored.get(Calendar.HOUR_OF_DAY)) {
             return true;
@@ -467,6 +468,8 @@ public class Date {
             // is smaller or equal
             return calCurrent.get(Calendar.MINUTE) <= calStored.get(Calendar.MINUTE);
         }
+        */
+        return calCurrent.getTime().before(calStored.getTime());
     }
 
 }

@@ -92,4 +92,23 @@ public class String {
 
         return sb.toString();
     }
+
+    /**
+     * <p>Converts a string value to an integer.</p>
+     * @param s A string to be converted.
+     * @return The string value converted to an integer.
+     */
+    public static int convertStringToInt(final java.lang.String s){
+
+        int result = 0;
+        try {
+            result = Integer.parseInt(s);
+        }
+        catch (Exception e){
+
+        }
+
+       return result;
+    }
+
 }
