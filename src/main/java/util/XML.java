@@ -3,7 +3,6 @@ package util;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-
 import java.lang.String;
 
 public class XML {
@@ -30,9 +29,14 @@ public class XML {
      * @param valueName The name of the value tag.
      * @param nodeList A full list with the affected region.
      * @param attributeName The name of the result field.
-     * @return The result as String
+     * @return The result as String. If the list is empty or null or no result was found, null is returned.
      */
     public static final java.lang.String searchHierarchyByAttributeAndValueName(final NodeList nodeList, final java.lang.String attributeName, final java.lang.String valueName){
+
+        if (nodeList == null || nodeList.getLength() == 0){
+            return null;
+        }
+
         // Iterate to first level
         for(int i = 0; i < nodeList.getLength(); i++){
 
@@ -136,9 +140,14 @@ public class XML {
      * @param tagValue the content of the field that condition should be fulfilled
      * @param attributeName name of the result field
      * @param attribute attribute of the result field
-     * @return result as String
+     * @return The result as String. If the list is empty or null or no result was found, null is returned.
      */
     public static java.lang.String searchHierarchyByTagAndAttribute(NodeList nodeList, final java.lang.String tagName, final java.lang.String tagAttribute, final java.lang.String tagValue, final java.lang.String attributeName, final java.lang.String attribute){
+
+        if (nodeList == null || nodeList.getLength() == 0){
+            return null;
+        }
+
         // Initialize variable
         String value = null;
 
