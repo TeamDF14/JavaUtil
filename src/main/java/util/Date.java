@@ -99,6 +99,23 @@ public class Date {
     }
 
     /**
+     * Converts the date time (MM/dd/yyyy HH:mm) of type String to the format Date.
+     *
+     * @param date contains the time as String (MM/dd/yyyy HH:mm)
+     * @return the time as Date
+     */
+    public static final java.util.Date convertStringToDateTime(final java.lang.String date, String format){
+        SimpleDateFormat dateFormat = new SimpleDateFormat(format);
+        java.util.Date convertedDate = new java.util.Date();
+        try {
+            convertedDate = dateFormat.parse(date);
+        } catch (ParseException e) {
+            //logger.log(Level.INFO, "Cannot convert Date to String");
+        }
+        return convertedDate;
+    }
+
+    /**
      * Convert the date of type Date to type String (MM/dd/yyyy HH:mm)
      *
      * @param date expect the date when the program was last opened
@@ -117,6 +134,10 @@ public class Date {
         // representation of a date with the defined format.
         return df.format(date);
     }
+
+
+
+
 
     /**
      * Converts the time of type String (MM/dd/yyyy) to type Date.
@@ -346,6 +367,57 @@ public class Date {
     }
 
     /**
+     * Calculates the difference between two date in minutes
+     * @param d1
+     * @param d2
+     * @return
+     */
+    public static int getDifferenceInMinutes(java.util.Date d1, java.util.Date d2){
+        int differenceInMinutes = 0;
+
+        if ((d1 == null) || (d2 == null)){
+            return differenceInMinutes;
+        }
+
+        long duration;
+        if (d1.before(d2))
+            duration  = d2.getTime() - d1.getTime();
+        else
+            duration  = d1.getTime() - d2.getTime();
+
+        long longDiff = TimeUnit.MILLISECONDS.toMinutes(duration);
+        return (int) (long) longDiff;
+    }
+
+    /**
+     * Calculates the difference between two date in minutes
+     * @param d1
+     * @param d2
+     * @return
+     */
+    public static int getDifferenceInDays(final java.util.Date d1, final java.util.Date d2){
+        int differenceInMinutes = 0;
+
+        if ((d1 == null) || (d2 == null)){
+            return differenceInMinutes;
+        }
+
+        // Convert the dates to prevent a comparison with wrong formats
+        java.util.Date firstDate = new java.util.Date();
+        firstDate.setTime(d1.getTime());
+        java.util.Date secondDate = new java.util.Date();
+        secondDate.setTime(d2.getTime());
+
+        long duration;
+        if (firstDate.before(secondDate))
+            duration  = secondDate.getTime() - firstDate.getTime();
+        else
+            duration  = firstDate.getTime() - secondDate.getTime();
+
+        return (int) (long) TimeUnit.MILLISECONDS.toDays(duration);
+    }
+
+    /**
      * <p>Extracts all dates from the given list, going back till the latest monday and puts it in the resulting list.</p>
      * <p>The list contains at most seven unique dates, always starting from monday.</p>
      * @param list A sorted list containing unique dates. The last date in the list ist the most actual one.
@@ -443,33 +515,30 @@ public class Date {
     }
 
     /**
-     * Determines if the time of the first calendar is smaller than the one from the second. It Calculates if the time of the first calendar is smaller than or equal to the time of the second calendar
+     * <p>Determines if the time of the first calendar is smaller than the one from the second.</p>
+     * <p>It calculates if the time of the first calendar is smaller than or equal to the time of the second calendar</p>
+     * <p><b>The correct result depends on the equal formatting of the dates!</b></p>
      * @param calCurrent The first calendar
      * @param calStored  The second calendar
      * @return The result of the comparison.
      */
-    public static final boolean bIsEarlier(Calendar calCurrent, Calendar calStored) {
+    public static final boolean bIsEarlier(final Calendar calCurrent, final Calendar calStored) {
 
         if(calCurrent == null || calStored == null){
             return false;
         }
-
-        /*
-        // is smaller
-        if (calCurrent.get(Calendar.HOUR_OF_DAY) < calStored.get(Calendar.HOUR_OF_DAY)) {
-            return true;
-        }
-        // is greater
-        else if (calCurrent.get(Calendar.HOUR_OF_DAY) > calStored.get(Calendar.HOUR_OF_DAY)) {
-            return false;
-        }
-        // Is equal
-        else {
-            // is smaller or equal
-            return calCurrent.get(Calendar.MINUTE) <= calStored.get(Calendar.MINUTE);
-        }
-        */
         return calCurrent.getTime().before(calStored.getTime());
+    }
+
+    /**
+     * Checks if the first date is earlier than the second one.
+     * @param d1 The first date.
+     * @param d2 The second date.
+     * @return True if the first date is earlier than the second one.
+     */
+    public static final boolean bIsEarlier(final java.util.Date d1, final java.util.Date d2){
+
+        return d1.before(d2);
     }
 
 }
