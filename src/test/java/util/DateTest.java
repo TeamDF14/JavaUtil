@@ -7,6 +7,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
+import static junit.framework.Assert.assertFalse;
+import static junit.framework.Assert.assertTrue;
 import static org.hamcrest.core.IsNot.not;
 import static org.junit.Assert.*;
 
@@ -149,7 +151,7 @@ public class DateTest {
 
     @Test
     public void bIsEarlier() {
-        assertFalse(util.Date.bIsEarlier(null, null));
+        assertFalse(util.Date.bIsEarlier((Calendar) null, null));
         assertFalse(util.Date.bIsEarlier(null, new GregorianCalendar()));
         assertFalse(util.Date.bIsEarlier(new GregorianCalendar(), null));
 
