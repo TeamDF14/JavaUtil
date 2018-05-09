@@ -165,7 +165,7 @@ public class DateTest {
 
         assertTrue(util.Date.bIsEarlier(cal1, cal2));
         assertFalse(util.Date.bIsEarlier(cal2, cal1));
-        assertTrue(util.Date.bIsEarlier(cal1, cal1));
+        assertFalse(util.Date.bIsEarlier(cal1, cal1));
 
         cal2.set(Calendar.MINUTE, cal1.get(Calendar.MINUTE) + 1);
 
