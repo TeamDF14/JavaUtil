@@ -254,6 +254,96 @@ public class Date {
     }
 
     /**
+     * Extracts the getMinutes out of a given date.
+     * @param d The date to extract the getMinutes from. This date must not be null.
+     * @return The getMinutes of the given date, e.g. <b>35</b>. If the date is null, an empty string is returned.
+     */
+    public static final String getMinutes(java.util.Date d){
+
+        if (d == null){
+            return "";
+        }
+
+        String sDate;
+        SimpleDateFormat sdF = new SimpleDateFormat("mm");
+        sDate = sdF.format(d);
+
+        return sDate;
+    }
+
+    /**
+     * Extracts the hours out of a given date.
+     * @param d The date to extract the hours from. This date must not be null.
+     * @return The hours of the given date, e.g. <b>02</b>. If the date is null, an empty string is returned.
+     */
+    public static final String getHours(java.util.Date d){
+
+        if (d == null){
+            return "";
+        }
+
+        String sDate;
+        SimpleDateFormat sdF = new SimpleDateFormat("HH");
+        sDate = sdF.format(d);
+
+        return sDate;
+    }
+
+    /**
+     * Extracts the day out of a given date.
+     * @param d The date to extract the day from. This date must not be null.
+     * @return The day of the given date, e.g. <b>03</b>. If the date is null, an empty string is returned.
+     */
+    public static final String getDay(java.util.Date d){
+
+        if (d == null){
+            return "";
+        }
+
+        String sDate;
+        SimpleDateFormat sdF = new SimpleDateFormat("dd");
+        sDate = sdF.format(d);
+
+        return sDate;
+    }
+
+    /**
+     * Extracts the month out of a given date.
+     * @param d The date to extract the month from. This date must not be null.
+     * @return The month of the given date, e.g. <b>11</b>. If the date is null, an empty string is returned.
+     */
+    public static final String getMonth(java.util.Date d){
+
+        if (d == null){
+            return "";
+        }
+
+        String sDate;
+        SimpleDateFormat sdF = new SimpleDateFormat("MM");
+        sDate = sdF.format(d);
+
+        return sDate;
+    }
+
+    /**
+     * Extracts the year out of a given date.
+     * @param d The date to extract the year from. This date must not be null.
+     * @return The year of the given date, e.g. <b>1992</b>. If the date is null, an empty string is returned.
+     */
+    public static final String getYear(java.util.Date d){
+
+        if (d == null){
+            return "";
+        }
+
+        String sDate;
+        SimpleDateFormat sdF = new SimpleDateFormat("YYYY");
+        sDate = sdF.format(d);
+
+        return sDate;
+    }
+
+    /**
      * <p>Converts the given date into a format that contains hours and minutes, e.g.: </p>
      * <ul>
      *     <li>16:05</li>
