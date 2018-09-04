@@ -173,4 +173,106 @@ public class DateTest {
         assertFalse(util.Date.bIsEarlier(cal2, cal1));
 
     }
+
+    @Test
+    public void getDayOfWeek() {
+    }
+
+    @Test
+    public void getSeconds() {
+        GregorianCalendar cal = new GregorianCalendar();
+        cal.setTime(new Date());
+        cal.set(Calendar.SECOND, 55);
+
+        assertEquals("55", util.Date.getSeconds(cal.getTime()));
+    }
+
+    @Test
+    public void getMinutes() {
+        GregorianCalendar cal = new GregorianCalendar();
+        cal.setTime(new Date());
+        cal.set(Calendar.MINUTE, 12);
+
+        assertEquals("12", util.Date.getMinutes(cal.getTime()));
+    }
+
+    @Test
+    public void getHours() {
+        GregorianCalendar cal = new GregorianCalendar();
+        cal.setTime(new Date());
+        cal.set(Calendar.HOUR_OF_DAY, 15);
+
+        assertEquals("15", util.Date.getHours(cal.getTime()));
+
+        cal.set(Calendar.HOUR_OF_DAY, 3);
+        assertEquals("03", util.Date.getHours(cal.getTime()));
+    }
+
+    @Test
+    public void getDay() {
+        GregorianCalendar cal = new GregorianCalendar();
+        cal.setTime(new Date());
+
+        cal.set(Calendar.DAY_OF_MONTH, 31);
+        cal.set(Calendar.MONTH, 12);
+
+        assertEquals("31", util.Date.getDay(cal.getTime()));
+
+        cal.set(Calendar.DAY_OF_MONTH, 1);
+        assertEquals("01", util.Date.getDay(cal.getTime()));
+    }
+
+    @Test
+    public void getMonth() {
+        GregorianCalendar cal = new GregorianCalendar();
+        cal.setTime(new Date());
+
+        cal.set(Calendar.MONTH, 1);
+        assertEquals("01", util.Date.getMonth(cal.getTime()));
+
+        cal.set(Calendar.MONTH, 4);
+        assertEquals("04", util.Date.getMonth(cal.getTime()));
+
+        cal.set(Calendar.MONTH, 12);
+        assertEquals("12", util.Date.getMonth(cal.getTime()));
+    }
+
+    @Test
+    public void getYear() {
+        GregorianCalendar cal = new GregorianCalendar();
+        cal.setTime(new Date());
+
+        cal.set(Calendar.YEAR, 1970);
+        assertEquals("1970", util.Date.getYear(cal.getTime()));
+
+        cal.set(Calendar.YEAR, 2030);
+        assertEquals("2030", util.Date.getYear(cal.getTime()));
+
+        cal.set(Calendar.YEAR, 0);
+        assertEquals("0000", util.Date.getYear(cal.getTime()));
+    }
+
+    @Test
+    public void getTime() {
+    }
+
+    @Test
+    public void getDate() {
+    }
+
+    @Test
+    public void getDifferenceInMinutes() {
+    }
+
+    @Test
+    public void getDifferenceInDays() {
+    }
+
+    @Test
+    public void getWeekList() {
+    }
+
+
+
+
 }
