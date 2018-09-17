@@ -87,7 +87,6 @@ public class String {
      */
     public static java.lang.String convertIntToString(int number){
         StringBuilder sb = new StringBuilder();
-        sb.append("");
         sb.append(number);
 
         return sb.toString();

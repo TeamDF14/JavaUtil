@@ -1,36 +1,81 @@
 package util;
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.io.File;
 import java.io.IOException;
 import java.lang.String;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 
 import static org.junit.Assert.*;
 
 public class FileSystemTest {
 
-    @Test
-    public void bCheckFileExists() {
+    private File testFile;
+    private String baseDir = System.getProperty("user.dir");
+    private String subDir = "subDir";
+    private String fileName = "test.txt";
 
-        String currentUserPath = System.getProperty("user.dir");
-        String fileName = "Test.txt";
-        File utilTestFile = new File(currentUserPath + "/" + fileName);
-        File wrongFile = new File(currentUserPath + "\\wrongFile.txt");
+    @Before
+    public void setUp() {
+        testFile = new File(baseDir + "\\" +  subDir + "\\" + fileName);
 
-        // Create file
+        // Create directories and file
         try {
-            utilTestFile.getParentFile().mkdirs();
-            utilTestFile.createNewFile();
+            testFile.getParentFile().mkdirs();
+            testFile.createNewFile();
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
 
-        assertTrue(util.FileSystem.bCheckFileExists(utilTestFile));
+    @After
+    public void cleanUp(){
+        // Delete created directory and file
+        testFile.delete();
+        new File(subDir).delete();
+    }
+
+    @Test
+    public void getFiles() {
+
+        File[] files;
+        assertNull(FileSystem.getFiles(null, null));
+
+        files = FileSystem.getFiles(testFile.getParentFile(), null);
+        assertNotNull(files);
+        assertEquals(1, files.length);
+        //assertSame(files[0], testFile);
+    }
+
+    @Test
+    public void wasCreatedBefore(){
+
+        assertTrue(FileSystem.wasCreatedBefore(testFile, new Date()));
+
+        Calendar cal = new GregorianCalendar();
+        cal.set(Calendar.DAY_OF_YEAR, cal.get(Calendar.DAY_OF_YEAR) - 1);
+        assertFalse(FileSystem.wasCreatedBefore(testFile, cal.getTime()));
+
+        cal.set(Calendar.DAY_OF_YEAR, cal.get(Calendar.DAY_OF_YEAR) + 5);
+        assertTrue(FileSystem.wasCreatedBefore(testFile, cal.getTime()));
+
+        cal.set(Calendar.DAY_OF_YEAR, cal.get(Calendar.DAY_OF_YEAR) - 1000);
+        assertFalse(FileSystem.wasCreatedBefore(testFile, cal.getTime()));
+    }
+
+    @Test
+    public void bCheckFileExists() {
+
+        File wrongFile = new File(baseDir + "\\wrongFile.txt");
+
+        assertTrue(util.FileSystem.bCheckFileExists(testFile));
         assertFalse(util.FileSystem.bCheckFileExists(wrongFile));
         assertFalse(util.FileSystem.bCheckFileExists(null));
 
-        // Delete created file
-        utilTestFile.delete();
     }
 }

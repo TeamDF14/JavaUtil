@@ -1,6 +1,15 @@
 package util;
 
 import java.io.File;
+import java.io.FileFilter;
+import java.io.FilenameFilter;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.attribute.BasicFileAttributes;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.Date;
 
 public class FileSystem {
 
@@ -14,6 +23,74 @@ public class FileSystem {
         }
 
         return (file.exists() && !file.isDirectory());
+    }
+
+    /**
+     * <p>Get all the files in the given directory.</p>
+     * <p>When an encoding is provided, only these files that end on this value are recognized.</p>
+     * <p>When no encoding is provided, return all files in the directory.</p>
+     * @param path The path where the files are located at. If it is invalid or not accessible, null is returned.
+     * @param encoding The encoding (with the dot, case insensitive), e.g. '.xml'.
+     * @return A list of files.
+     */
+    public static File[] getFiles(final File path, final java.lang.String encoding){
+
+        File[] files;
+
+        if (path == null || !path.exists() || !path.canRead()){
+            return null;
+        }
+
+        if(util.String.isEmpty(encoding)){
+            files = path.listFiles(new java.io.FileFilter() {
+                @Override
+                public boolean accept(File file) {
+                    return true;
+                }
+            });
+        }
+        else{
+            files = path.listFiles(new java.io.FilenameFilter() {
+                @Override
+                public boolean accept(File file, java.lang.String s) {
+                    return s.toLowerCase().endsWith(encoding);
+                }
+            });
+
+        }
+        return files;
+    }
+
+
+    /**
+     * <p>Checks if the given file was created <i>before</i> the given date.</p>
+     * <p>The hours, minutes and seconds of the dates are ignored.</p>
+     * <p><b>Example:</b></p>
+     * <p>When today is the 10.10.1998 and the file was created on 02.10.1998, true will be returned. </p>
+     * @param f The file to check
+     * @return True if the file is older than the given date, false if not or the file does not exist.
+     */
+    public static boolean wasCreatedBefore(final File f, final Date date){
+
+        if (f == null){
+            return false;
+        }
+
+        BasicFileAttributes attr = null;
+        try {
+            attr = Files.readAttributes(f.toPath(),
+                    BasicFileAttributes.class);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        LocalDateTime ldt = attr.creationTime()
+                .toInstant()
+                .atZone(ZoneId.systemDefault())
+                .toLocalDateTime();
+        Date localDate = Date.from(ldt.toLocalDate().atStartOfDay(ZoneId.systemDefault()).toInstant());
+
+        return util.Date.bIsEarlier(localDate, date);
     }
 
 }
