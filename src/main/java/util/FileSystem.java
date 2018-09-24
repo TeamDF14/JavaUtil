@@ -1,5 +1,7 @@
 package util;
 
+import com.sun.javafx.util.Utils;
+
 import java.io.File;
 import java.io.FileFilter;
 import java.io.FilenameFilter;
@@ -12,6 +14,23 @@ import java.time.ZoneId;
 import java.util.Date;
 
 public class FileSystem {
+
+
+    /**
+     * <p>Returns the delimiting string of hierarchies, depending on the OS. </p>
+     * <p>If the current OS is Windows, <i>\\</i> is returned.</p>
+     * <p>If the current OS is other than Windows, <i>//</i> is returned.</p>
+     * @return The delimiter.
+     */
+    public static java.lang.String getPathDelimiter(){
+        if (Utils.isWindows()){
+            return "\\";
+        }
+        else{
+            return "//";
+        }
+    }
+
 
     /**
      * <p>Checks if a given file already exists.</p>
