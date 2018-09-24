@@ -480,16 +480,17 @@ public class Date {
     }
 
     /**
-     * Calculates the difference between two date in minutes
-     * @param d1
-     * @param d2
-     * @return
+     * Calculates the difference between two dates in days.
+     * The order of the two dates doesn't matter.
+     * @param d1 The first date.
+     * @param d2 The second date.
+     * @return The difference of the two dates in minutes.
      */
     public static int getDifferenceInDays(final java.util.Date d1, final java.util.Date d2){
-        int differenceInMinutes = 0;
+        int diff = 0;
 
         if ((d1 == null) || (d2 == null)){
-            return differenceInMinutes;
+            return diff;
         }
 
         // Convert the dates to prevent a comparison with wrong formats
