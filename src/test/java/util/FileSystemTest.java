@@ -41,6 +41,13 @@ public class FileSystemTest {
     }
 
     @Test
+    public void getPathDelimiter(){
+
+        assertEquals(FileSystem.getPathDelimiter(), "\\");
+
+    }
+
+    @Test
     public void getFiles() {
 
         File[] files;
