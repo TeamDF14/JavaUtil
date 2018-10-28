@@ -12,6 +12,25 @@ import static org.hamcrest.core.IsNot.not;
 import static org.junit.Assert.*;
 
 public class DateTest {
+    @Test
+    public void subtractYear() {
+
+        assertNull(util.Date.modifyYear(null, 0));
+
+        Calendar cal = new GregorianCalendar();
+        cal.setTime(new Date());
+        cal.set(Calendar.YEAR, 2018);
+
+        Calendar calToCheck = new GregorianCalendar();
+        calToCheck.setTime(util.Date.modifyYear(cal.getTime(), - 1));
+        assertEquals(calToCheck.get(Calendar.YEAR), 2017);
+
+        calToCheck.setTime(util.Date.modifyYear(cal.getTime(), 5));
+        assertEquals(calToCheck.get(Calendar.YEAR), 2023);
+
+        calToCheck.setTime(util.Date.modifyYear(cal.getTime(), 0));
+        assertEquals(calToCheck.get(Calendar.YEAR), 2018);
+    }
 
     @Test
     public void bIsDayEqual() {

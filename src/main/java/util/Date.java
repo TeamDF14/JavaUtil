@@ -628,8 +628,50 @@ public class Date {
      * @return True if the first date is earlier than the second one.
      */
     public static final boolean bIsEarlier(final java.util.Date d1, final java.util.Date d2){
-
+        if (d1 == null || d2 == null)
+            return false;
         return d1.before(d2);
+    }
+
+    /**
+     * <p>Get the number of the day in the current year, e.g. '203'.</p>
+     * @return The number of the day in the current year
+     */
+    public static int getDayOfCurrentYear(){
+        GregorianCalendar cal = new GregorianCalendar();
+        return cal.get(Calendar.DAY_OF_YEAR);
+    }
+
+    /**
+     * <p>Get the first day of the given year.</p>
+     * @param year The year
+     * @return The first day of the given year
+     */
+    public static java.util.Date getFirstDayOfYear(final int year){
+        GregorianCalendar cal = new GregorianCalendar();
+        cal.set(Calendar.DAY_OF_YEAR, 01);
+        cal.set(Calendar.MONTH, 01);
+        cal.set(Calendar.YEAR, year);
+
+        return cal.getTime();
+    }
+
+    /**
+     * <p>Modifies the year of the given date by the given amount of years.</p>
+     * <p>For example, if the year of the given date is '2018' and the given amount is equal to '-2', the year of the resulting date will be '2016'.</p>
+     * @param date The date to modify.
+     * @param amount The number of years to add/subtract
+     * @return The date which year is modified by the given amount of years.
+     */
+    public static java.util.Date modifyYear(final java.util.Date date, final int amount){
+
+        if (date == null || amount == 0)
+            return date;
+        GregorianCalendar cal = new GregorianCalendar();
+        cal.setTime(date);
+        cal.set(Calendar.YEAR,cal.get(Calendar.YEAR) + amount);
+
+        return cal.getTime();
     }
 
 }

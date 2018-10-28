@@ -7,7 +7,10 @@ import java.io.FileFilter;
 import java.io.FilenameFilter;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.attribute.BasicFileAttributeView;
 import java.nio.file.attribute.BasicFileAttributes;
+import java.nio.file.attribute.FileTime;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -29,6 +32,28 @@ public class FileSystem {
         else{
             return "//";
         }
+    }
+
+    /**
+     * <p>Changes the creation date of the given file.</p>
+     * <p>The file must exist, else no change will be applied.</p>
+     * @param creationDate The date that will be set as the new creation date
+     * @param file The file to apply the changes to
+     * @return True if the creation date was changed, false if not.
+     */
+    public static boolean setCreationDate(final File file, final Date creationDate){
+        if (!bCheckFileExists(file))
+            return false;
+        BasicFileAttributeView attributes = Files.getFileAttributeView(Paths.get(file.getAbsolutePath()), BasicFileAttributeView.class);
+        FileTime time = FileTime.fromMillis(creationDate.getTime());
+        try {
+            attributes.setTimes(time, time, time);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+
+        return true;
     }
 
 
@@ -112,4 +137,15 @@ public class FileSystem {
         return util.Date.bIsEarlier(localDate, date);
     }
 
+    /**
+     * <p>Creates the given directory (including all necessary subdirectories)</p>
+     * <p>In addition, the user permissions in order to write and modify the directories are checked.</p>
+     * ToDo
+     * @param dir
+     */
+    public static boolean createDirectory(File dir) {
+        // ToDo
+        dir.mkdirs();
+        return true;
+    }
 }
