@@ -193,7 +193,11 @@ public class DateTest {
     }
 
     @Test
-    public void getDayOfWeek() {
+    public void getWeekOfDate() {
+        Date date = util.Date.convertStringToDate("01/10/2018");
+        assertEquals(02, util.Date.getWeekOfDate(date));
+        assertEquals(0, util.Date.getWeekOfDate(null));
+
     }
 
     @Test
@@ -240,20 +244,22 @@ public class DateTest {
         assertEquals("01", util.Date.getDay(cal.getTime()));
     }
 
-    @Ignore
+    //@Ignore
     @Test
     public void getMonth() {
         GregorianCalendar cal = new GregorianCalendar();
         cal.setTime(new Date());
 
-        cal.set(Calendar.MONTH, 1);
+        cal.set(Calendar.MONTH, 0);
         assertEquals("01", util.Date.getMonth(cal.getTime()));
 
-        cal.set(Calendar.MONTH, 4);
+        cal.set(Calendar.MONTH, 3);
         assertEquals("04", util.Date.getMonth(cal.getTime()));
 
-        cal.set(Calendar.MONTH, 12);
+        cal.set(Calendar.MONTH, 11);
         assertEquals("12", util.Date.getMonth(cal.getTime()));
+
+        assertEquals("", util.Date.getMonth(null));
     }
 
     @Test

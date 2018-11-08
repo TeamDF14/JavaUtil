@@ -643,6 +643,19 @@ public class Date {
     }
 
     /**
+     * <p>Get the week of the given date, e.g. date is '2018-01-10', the week is '02'.</p>
+     * @param date The date to get the week from
+     * @return The week of the given date.
+     */
+    public static int getWeekOfDate(final java.util.Date date){
+        if (date == null)
+            return 0;
+        Calendar cal = new GregorianCalendar(timeZone);
+        cal.setTime(date);
+        return cal.get(Calendar.WEEK_OF_YEAR);
+    }
+
+    /**
      * <p>Get the first day of the given year.</p>
      * @param year The year
      * @return The first day of the given year
@@ -670,6 +683,24 @@ public class Date {
         GregorianCalendar cal = new GregorianCalendar();
         cal.setTime(date);
         cal.set(Calendar.YEAR,cal.get(Calendar.YEAR) + amount);
+
+        return cal.getTime();
+    }
+
+    /**
+     * <p>Modifies the month of the given date by the given amount of months.</p>
+     * <p>For example, if the month of the given date is '11 (November)' and the given amount is equal to '-2', the month of the resulting date will be '09'.</p>
+     * @param date The date to modify.
+     * @param amount The number of months to add/subtract
+     * @return The date which month is modified by the given amount of months.
+     */
+    public static java.util.Date modifyMonth(final java.util.Date date, final int amount){
+
+        if (date == null || amount == 0)
+            return date;
+        GregorianCalendar cal = new GregorianCalendar();
+        cal.setTime(date);
+        cal.set(Calendar.MONTH,cal.get(Calendar.MONTH) + amount);
 
         return cal.getTime();
     }
