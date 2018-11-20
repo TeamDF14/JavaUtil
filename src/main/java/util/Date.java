@@ -61,28 +61,25 @@ public class Date {
     /**
      * Converts the time of type String (HH:mm) to a date.
      *
-     * @param time Contains the time as String (HH:mm)
+     * @param sTime Contains the time as String (HH:mm)
      * @return The time of type Date
      */
-    public static final java.util.Date convertStringToTime(final java.lang.String time){
-        if (util.String.isEmpty(time)){
+    public static final java.util.Date convertStringToTime(final java.lang.String sTime){
+        if (util.String.isEmpty(sTime)){
             return null;
         }
-
         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
         java.util.Date date = null;
-
         try {
-            date = sdf.parse(time);
+            date = sdf.parse(sTime);
         } catch (ParseException e) {
             //logger.log(Level.INFO, "Can not convert Date to String");
         }
-
         return date;
     }
 
     /**
-     * Converts the date time (MM/dd/yyyy HH:mm) of type String to the format Date.
+     * <p>Converts the given date  (MM/dd/yyyy HH:mm) to its string expression.</p>
      *
      * @param date contains the time as String (MM/dd/yyyy HH:mm)
      * @return the time as Date
@@ -99,16 +96,19 @@ public class Date {
     }
 
     /**
-     * Converts the date time (MM/dd/yyyy HH:mm) of type String to the format Date.
-     *
-     * @param date contains the time as String (MM/dd/yyyy HH:mm)
-     * @return the time as Date
+     * <p>Converts the given date string to its date expression, using the provided format.</p>
+     * <p>The format can be e.g. (MM/dd/yyyy HH:mm)</p>
+     * @param sDate The date to be converted formatted as string.
+     * @param format The desired date format.
+     * @return The date string formatted as date by using the provided format.
      */
-    public static final java.util.Date convertStringToDateTime(final java.lang.String date, String format){
+    public static final java.util.Date convertStringToDateTime(final java.lang.String sDate, String format){
         SimpleDateFormat dateFormat = new SimpleDateFormat(format);
-        java.util.Date convertedDate = new java.util.Date();
+        dateFormat.setTimeZone(timeZone);
+
+        java.util.Date convertedDate = null;
         try {
-            convertedDate = dateFormat.parse(date);
+            convertedDate = dateFormat.parse(sDate);
         } catch (ParseException e) {
             //logger.log(Level.INFO, "Cannot convert Date to String");
         }
@@ -118,8 +118,8 @@ public class Date {
     /**
      * Convert the date of type Date to type String (MM/dd/yyyy HH:mm)
      *
-     * @param date expect the date when the program was last opened
-     * @return a String in format (MM/dd/yyyy HH:mm)
+     * @param date The date to be converted.
+     * @return A string in format (MM/dd/yyyy HH:mm)
      */
     public static final java.lang.String convertDateTimeToString(final java.util.Date date) {
         if (date == null) {
@@ -135,7 +135,21 @@ public class Date {
         return df.format(date);
     }
 
-
+    /**
+     * <p>Converts the given date to its string expression, using the provided format.</p>
+     * <p>The format can be e.g. (MM/dd/yyyy HH:mm)</p>
+     * @param date The date to be converted.
+     * @param format The desired date format.
+     * @return The date as string, converted using the given format.
+     */
+    public static final java.lang.String convertDateTimeToString(final java.util.Date date, final String format) {
+        if (date == null || util.String.isEmpty(format)) {
+            return null;
+        }
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(format);
+        simpleDateFormat.setTimeZone(timeZone);
+        return simpleDateFormat.format(date);
+    }
 
 
 
@@ -670,39 +684,36 @@ public class Date {
     }
 
     /**
-     * <p>Modifies the year of the given date by the given amount of years.</p>
-     * <p>For example, if the year of the given date is '2018' and the given amount is equal to '-2', the year of the resulting date will be '2016'.</p>
+     * <p>Modifies the given type of the date by the given amount.</p>
+     * <p>The type of the date can be e.g.:</p>
+     * <ol>
+     *     <li>Calendar.YEAR</li>
+     *     <li>Calendar.MONTH</li>
+     *     <li>Calendar.DAY_OF_YEAR</li>
+     *     <li>etc..</li>
+     * </ol>
+     * <p>For example, if the year of the given date is '2018', the given type is Calendar.YEAR and the given amount is equal to '-2', the year of the resulting date will be '2016'.</p>
      * @param date The date to modify.
-     * @param amount The number of years to add/subtract
-     * @return The date which year is modified by the given amount of years.
+     * @param type The type of the date that should be modified.
+     * @param amount The number of units to add/subtract.
+     * @return The date which type is modified by the given amount. If there was an error, the original date is returned.
      */
-    public static java.util.Date modifyYear(final java.util.Date date, final int amount){
-
+    public static java.util.Date modifyDate(final java.util.Date date, final int type, final int amount){
         if (date == null || amount == 0)
             return date;
+
         GregorianCalendar cal = new GregorianCalendar();
         cal.setTime(date);
-        cal.set(Calendar.YEAR,cal.get(Calendar.YEAR) + amount);
+        cal.set(type,cal.get(type) + amount);
 
-        return cal.getTime();
-    }
-
-    /**
-     * <p>Modifies the month of the given date by the given amount of months.</p>
-     * <p>For example, if the month of the given date is '11 (November)' and the given amount is equal to '-2', the month of the resulting date will be '09'.</p>
-     * @param date The date to modify.
-     * @param amount The number of months to add/subtract
-     * @return The date which month is modified by the given amount of months.
-     */
-    public static java.util.Date modifyMonth(final java.util.Date date, final int amount){
-
-        if (date == null || amount == 0)
+        java.util.Date returnDate = null;
+        try{
+            returnDate = cal.getTime();
+        }catch (Exception e){
             return date;
-        GregorianCalendar cal = new GregorianCalendar();
-        cal.setTime(date);
-        cal.set(Calendar.MONTH,cal.get(Calendar.MONTH) + amount);
+        }
 
-        return cal.getTime();
+        return returnDate;
     }
 
 }

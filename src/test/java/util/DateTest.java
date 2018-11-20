@@ -1,6 +1,5 @@
 package util;
 
-import org.junit.Ignore;
 import org.junit.Test;
 
 import java.lang.String;
@@ -13,23 +12,27 @@ import static org.junit.Assert.*;
 
 public class DateTest {
     @Test
-    public void subtractYear() {
+    public void modifyDate() {
 
-        assertNull(util.Date.modifyYear(null, 0));
-
+        // Check years
+        assertNull(util.Date.modifyDate(null, Calendar.YEAR, 0));
         Calendar cal = new GregorianCalendar();
         cal.setTime(new Date());
         cal.set(Calendar.YEAR, 2018);
 
         Calendar calToCheck = new GregorianCalendar();
-        calToCheck.setTime(util.Date.modifyYear(cal.getTime(), - 1));
+        calToCheck.setTime(util.Date.modifyDate(cal.getTime(), Calendar.YEAR, - 1));
         assertEquals(calToCheck.get(Calendar.YEAR), 2017);
 
-        calToCheck.setTime(util.Date.modifyYear(cal.getTime(), 5));
+        calToCheck.setTime(util.Date.modifyDate(cal.getTime(), Calendar.YEAR, 5));
         assertEquals(calToCheck.get(Calendar.YEAR), 2023);
 
-        calToCheck.setTime(util.Date.modifyYear(cal.getTime(), 0));
+        calToCheck.setTime(util.Date.modifyDate(cal.getTime(), Calendar.YEAR, 0));
         assertEquals(calToCheck.get(Calendar.YEAR), 2018);
+
+        // Check any invalid type
+        Date d = util.Date.modifyDate(cal.getTime(), 0, 2);
+        assertEquals(d, cal.getTime());
     }
 
     @Test
@@ -197,7 +200,6 @@ public class DateTest {
         Date date = util.Date.convertStringToDate("01/10/2018");
         assertEquals(02, util.Date.getWeekOfDate(date));
         assertEquals(0, util.Date.getWeekOfDate(null));
-
     }
 
     @Test

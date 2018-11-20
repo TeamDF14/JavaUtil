@@ -58,6 +58,25 @@ public class FileSystem {
 
 
     /**
+     * <p>Returns the creation date of the given file.</p>
+     * <p>The file must exist, else null will be returned.</p>
+     * @param file The file to extract the creation date from.
+     * @return True if the creation date could be determined, false false if not.
+     */
+    public static Date getCreationDate(final File file){
+        if (!bCheckFileExists(file))
+            return null;
+        BasicFileAttributeView attributes = Files.getFileAttributeView(Paths.get(file.getAbsolutePath()), BasicFileAttributeView.class);
+        FileTime creationDate = null;
+        try {
+            creationDate = attributes.readAttributes().creationTime();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return new Date(creationDate.toMillis());
+    }
+
+    /**
      * <p>Checks if a given file already exists.</p>
      * @return True if the file exists and is no directory, false otherwise.
      */
@@ -112,14 +131,12 @@ public class FileSystem {
      * <p><b>Example:</b></p>
      * <p>When today is the 10.10.1998 and the file was created on 02.10.1998, true will be returned. </p>
      * @param f The file to check
-     * @return True if the file is older than the given date, false if not or the file does not exist.
+     * @return True if the creation date is older than the given date, false if not or the file does not exist.
      */
     public static boolean wasCreatedBefore(final File f, final Date date){
-
         if (f == null){
             return false;
         }
-
         BasicFileAttributes attr = null;
         try {
             attr = Files.readAttributes(f.toPath(),
@@ -127,25 +144,71 @@ public class FileSystem {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
         LocalDateTime ldt = attr.creationTime()
                 .toInstant()
                 .atZone(ZoneId.systemDefault())
                 .toLocalDateTime();
         Date localDate = Date.from(ldt.toLocalDate().atStartOfDay(ZoneId.systemDefault()).toInstant());
+        return util.Date.bIsEarlier(localDate, date);
+    }
 
+    /**
+     * <p>Checks if the given file was modified <i>before</i> the given date.</p>
+     * <p>The hours, minutes and seconds of the dates are ignored.</p>
+     * <p><b>Example:</b></p>
+     * <p>When today is the 10.10.1998 and the file was modified on 02.10.1998, true will be returned. </p>
+     * @param f The file to check
+     * @return True if the modified date is older than the given date, false if not or the file does not exist.
+     */
+    public static boolean wasModifiedBefore(final File f, final Date date){
+        if (f == null){
+            return false;
+        }
+        BasicFileAttributes attr = null;
+        try {
+            attr = Files.readAttributes(f.toPath(),
+                    BasicFileAttributes.class);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        LocalDateTime ldt = attr.lastModifiedTime()
+                .toInstant()
+                .atZone(ZoneId.systemDefault())
+                .toLocalDateTime();
+        Date localDate = Date.from(ldt.toLocalDate().atStartOfDay(ZoneId.systemDefault()).toInstant());
         return util.Date.bIsEarlier(localDate, date);
     }
 
     /**
      * <p>Creates the given directory (including all necessary subdirectories)</p>
      * <p>In addition, the user permissions in order to write and modify the directories are checked.</p>
-     * ToDo
-     * @param dir
+     * ToDo: Test case
+     * @param dir The directory to create.
      */
     public static boolean createDirectory(File dir) {
         // ToDo
         dir.mkdirs();
         return true;
+    }
+
+    /**
+     * <p>Deletes the given file and also its parent directory, if it is empty.</p>
+     * ToDo: Test case
+     * @param file The file to delete.
+     * @return True if the file was deleted, false if there was an error.
+     */
+    public static boolean deleteFile(final File file){
+        if (util.FileSystem.bCheckFileExists(file)){
+            try{
+                file.delete();
+                file.getParentFile().delete();
+            }
+            catch (Exception e){
+                e.printStackTrace();
+                return false;
+            }
+            return true;
+        }
+        return false;
     }
 }
