@@ -84,8 +84,18 @@ public class FileSystem {
         if(file == null) {
             return false;
         }
-
         return (file.exists() && !file.isDirectory());
+    }
+
+    /**
+     * <p>Checks if a given directory already exists.</p>
+     * @return True if the directory exists and is no file, false otherwise.
+     */
+    public static boolean bCheckDirectoryExists(final File file){
+        if(file == null) {
+            return false;
+        }
+        return (file.exists() && file.isDirectory() && !file.isFile());
     }
 
     /**
@@ -184,15 +194,34 @@ public class FileSystem {
      * <p>In addition, the user permissions in order to write and modify the directories are checked.</p>
      * ToDo: Test case
      * @param dir The directory to create.
+     * @return True if the directory was created, false if there was an error or missing permissions.
      */
     public static boolean createDirectory(File dir) {
-        // ToDo
-        dir.mkdirs();
-        return true;
+        return dir.mkdirs() && dir.canWrite();
     }
 
     /**
-     * <p>Deletes the given file and also its parent directory, if it is empty.</p>
+     * <p>Deletes the given directory. </p>
+     * ToDo: Test case
+     * @param dir The directory to delete.
+     * @return True if the directory was deleted, false if there was an error.
+     */
+    public static boolean deleteDirectory(final File dir){
+        if (util.FileSystem.bCheckDirectoryExists(dir)){
+            try{
+                dir.delete();
+            }
+            catch (Exception e){
+                e.printStackTrace();
+                return false;
+            }
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * <p>Deletes the given file. </p>
      * ToDo: Test case
      * @param file The file to delete.
      * @return True if the file was deleted, false if there was an error.
@@ -201,7 +230,6 @@ public class FileSystem {
         if (util.FileSystem.bCheckFileExists(file)){
             try{
                 file.delete();
-                file.getParentFile().delete();
             }
             catch (Exception e){
                 e.printStackTrace();
